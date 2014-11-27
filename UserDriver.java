@@ -11,29 +11,41 @@
  	{
  		
  		List<User> allMembers = new ArrayList<User>();
- 		User member;
- 		String confirm ="OK";
- 	//	User member = new User();
+ 		User member = new User();
+ 		int confirm = JOptionPane.YES_OPTION;
  	
  	
- 		while (confirm.equals("OK"))
+ 		while(confirm == JOptionPane.YES_OPTION)
  		{
  		
- 		String name;
- 		name = JOptionPane.showInputDialog("Please Enter Your Name: ");
+ 			String name;
+ 			name = JOptionPane.showInputDialog("Please Enter Your Name: ");
+ 			
  		
- 		String userName;
- 		userName = JOptionPane.showInputDialog("Please Enter Your UserName: ");
+ 			String userName;
+ 			userName = JOptionPane.showInputDialog("Please Enter Your UserName: ");
+ 			
  		
- 		String password;
- 		password = JOptionPane.showInputDialog("Please Enter Your Password: ");
+ 			String password;
+ 			password = JOptionPane.showInputDialog("Please Enter Your Password: ");
+ 			
  		
- 		String email;
- 		email = JOptionPane.showInputDialog("Please Enter Your Email: ");
+ 			String email;
+ 			email = JOptionPane.showInputDialog("Please Enter Your Email: ");
  		
- 		break;
+ 			member = new User(name,userName,password,email);
+ 			
+ 			
+ 		
+ 			confirm = JOptionPane.showConfirmDialog(null,"Do you want to change");
+ 			if(confirm == JOptionPane.CANCEL_OPTION)
+ 			{
+ 				System.exit(0);
+ 			}
+ 			allMembers.add(member);
  		
  		}
+ 		
  		File f1 = new File("AllMembers.dat");
 		
 		FileOutputStream fos = new FileOutputStream(f1);
@@ -41,5 +53,7 @@
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(allMembers);
 		oos.close();
+		
+		JOptionPane.showMessageDialog(null," " + member.toString());
  	}
  }
