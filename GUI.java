@@ -8,63 +8,86 @@
  import java.awt.event.*;
  
  public class GUI extends JFrame implements ActionListener{
- 	JMenuBar menuBar = new JMenuBar();
+ 	JMenu User;
+ 	
+ 	public static void main(String[] args){
+		
+	 GUI frame = new GUI();
+        frame.setVisible(true);
+	}
 	public GUI(){
-		setTitle("Stuff-Stack");
+	/*
 		Toolkit tk = Toolkit.getDefaultToolkit();  
 		int xSize = ((int) tk.getScreenSize().getWidth());  
 		int ySize = ((int) tk.getScreenSize().getHeight());  
-		setSize(xSize,ySize);
+		setSize(xSize,ySize);*/
+		setTitle("Stuff-Stack");
+		Container cPane;
+		cPane = getContentPane( );
+        cPane.setLayout(new FlowLayout());
+		setSize(600,600);
+		setLocationRelativeTo(null);
 
-	//	setSize(600,600);
-	//	setLocationRelativeTo(null);
-	//	setLocation(300,400);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		createUserMenu();
-		createProductMenu();
-		setJMenuBar(menuBar);
 		addWindowListener(new WindowEventHandler());
 		setIconImage(new ImageIcon(
 		getClass().getResource("Shopping-Basket-icon.png")).getImage());
+		createUserMenu();
+		JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+        menuBar.add(User);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-	public static void main(String[] args){
-		
-		GUI menu = new GUI();
-		menu.setVisible(true);
-		
-	}
+/*	public UserDriver(){
+        setSize(200, 200);
+        setVisible(true);
+        //additional calls
+     }*/
+	
 	public void actionPerformed(ActionEvent e){
-		
-			
-			
-			
+		String  menuName;
+        menuName = e.getActionCommand(); // what's written on the item that was clicked
+        // note the String comparison
+        if (menuName.equals("New User")) {
+        		UserDriver f2 = new UserDriver();
+				this.setVisible(false); 
+				setVisible(true); 
+        }		
+									
 	}
+	
 	
 	private class WindowEventHandler extends WindowAdapter{
 		ImageIcon img = new ImageIcon("Shopping-Basket-icon.png");
-			public void windowClosing(WindowEvent e){
+		/*	public void windowClosing(WindowEvent e){
 		int option = JOptionPane.showConfirmDialog(null,"Are you sure you wish to exit?");
 		
 			if(option == JOptionPane.YES_OPTION)
 			{
 				System.exit(0);
 			}
+			setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
-		}
+		}*/
 	}
+	
 	public void createUserMenu(){
-		JMenu UserMenu = new JMenu("User");
-		menuBar.add(UserMenu);
-		JMenuItem add = new JMenuItem("Add");
-		UserMenu.add(add);
-		add.addActionListener(this);
+		JMenuItem    item;
+		User = new JMenu("User");
+		item = new JMenuItem("New User");        
+        item.addActionListener( this );
+        User.add( item );
+
+        
+     //   item = new JMenuItem("Open...");    
+     //   item.addActionListener( this );
+     //   fileMenu.add( item );
 	}
-	public void createProductMenu(){
+/*	public void createProductMenu(){
 		JMenu product = new JMenu("Product");
 		menuBar.add(product);
 		JMenuItem add = new JMenuItem("Add");
 		product.add(add);
 		add.addActionListener(this);
 		
-	}
+	}*/
  }
