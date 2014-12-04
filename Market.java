@@ -1,5 +1,5 @@
 //Niall Stack T00174406 OOP2-Project-2014
-/*GUI.java
+/*Market.java
  *This programme is the GUI that uses the mutators and accessors from the user and 
  *product classes*/
  
@@ -10,52 +10,41 @@
  import java.awt.event.*;
  import java.io.*;
  
- public class GUI extends JFrame implements ActionListener{
- 	JMenu User;
+  public class Market extends JFrame implements ActionListener{
+  	JMenu User;
  	JMenu Product;
- 	JButton proceed;
-    private JLabel imageLabel;
-    private JLabel promptLabel;
-  //  private JLabel promptLabel2;
+ 	JButton back;
  	public static void main(String[] args){
-		
-	 GUI frame = new GUI();
+ 		Market frame = new Market();
         frame.setVisible(true);
-	}
-	public GUI(){
-		super("GUI");
+ 	}
+ 	public Market(){
+ 		super("Market");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-		setTitle("Stuff-Stack");
+ 		setTitle("Stuff-Stack");
 		Container cPane;
 		cPane = getContentPane( );
         cPane.setLayout(new FlowLayout());
 		setSize(700,700);
 		setLocationRelativeTo(null);
-		imageLabel = new JLabel(new ImageIcon("create_thumb.png"));
-		cPane.add(imageLabel);
-		promptLabel = new JLabel("<html><br><h1>Welcome to Stuff-Stack</h1><br> The online store where you can look at the item in person before you buy!<br>Simply make an account, ask to purchase an item and then it will be sent to one of our locations for you to view<br><br><br><h2>Selling</h2><br>If you wish to sell something,<br> simply enter the details of the product and it will be sent to a moderator, who will add it to the site.</html>");
-        cPane.add(promptLabel);
-        //promptLabel2 = new JLabel("<html><br><br><h1>Selling</h1><br>If you wish to sell something,<br> simply enter the details of the product and it will be sent to a moderator, who will add it to the site</html>");
-        //cPane.add(promptLabel2);
 		addWindowListener(new WindowEventHandler());
 		setIconImage(new ImageIcon(
 		getClass().getResource("Shopping-Basket-icon.png")).getImage());
-		proceed = new JButton("Proceed");
-		proceed.addActionListener(this);
-        proceed.setActionCommand("Proceed");
-		cPane.add(proceed);
 		createUserMenu();
 		createProductMenu();
 		JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
         menuBar.add(User);
         menuBar.add(Product);
+        back = new JButton("Back");
+        back.addActionListener(this);
+        back.setActionCommand("Proceed");
+		cPane.add(back);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-	}
-
-	
-	public void actionPerformed(ActionEvent e){
+        
+ 	}
+ 	public void actionPerformed(ActionEvent e){
 		String  menuName;
 		String cmd = e.getActionCommand();
         menuName = e.getActionCommand(); // what's written on the item that was clicked
@@ -84,17 +73,15 @@
         }
         if(cmd.equals("Proceed"))
         {
-            dispose();
-            new Market();
-        }
-        					
+        	dispose();
+            new GUI();
+        }					
         }
         catch(Exception c){
         
         }
         				
 	}
-	
 	private class WindowEventHandler extends WindowAdapter{
 		ImageIcon img = new ImageIcon("Shopping-Basket-icon.png");
 			public void windowClosing(WindowEvent e){
@@ -108,7 +95,6 @@
 		
 		}
 	}
-	
 	public void createUserMenu(){
 		JMenuItem    item;
 		User = new JMenu("User");
@@ -225,7 +211,4 @@
 		
 		return products;
  	}
- 
-	
- }
- 
+  }
