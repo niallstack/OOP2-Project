@@ -1,10 +1,10 @@
 //Niall Stack T00174406 OOP2-Project-2014
 /*Feedback.java
- *This programme is a simple JFrame that allows the user to enter their feed back into a JTextField*/
+ *This program is a simple JFrame that allows the user to enter their feed back into a JTextField*/
  /*References 
-1- From Programmes written by John Walsh
-2- http://stackoverflow.com/questions/14735085/clicking-a-jlabel-to-open-a-new-frame
-3- http://stackoverflow.com/questions/24076612/opening-editing-and-saving-text-in-jtextarea-to-txt-file
+1- From Programs written by John Walsh
+2- http://stackoverflow.com/questions/14735085/clicking-a-jlabel-to-open-a-new-frame - By Robin Chander
+3- http://stackoverflow.com/questions/24076612/opening-editing-and-saving-text-in-jtextarea-to-txt-file - By Arijit
 */
  
  import javax.swing.*;
@@ -13,14 +13,16 @@
  import java.awt.*;
  import java.awt.event.*;
  import java.io.*;
- 
- public class Feedback extends JFrame implements ActionListener{
+ //Start of Feedback method which is executed through the GUI
+ public class Feedback extends JFrame implements ActionListener{ //Start of Feedback
  	 JButton submit;
  	 JTextArea textArea;
+ 	 //The main method of the Feedback Class
  	 	public static void main(String[] args){	 	
  			 Feedback frame = new Feedback();
      		frame.setVisible(true);
- 	 	}
+ 	 	}//End of main
+ 	 	//The JFrame is constructed here
  public Feedback(){
  		super("Feedback");
  	 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,22 +40,25 @@
         submit.setActionCommand("Submit");
 		cPane.add(submit);
 		
-  	}
-  public void actionPerformed(ActionEvent e){
+  	}//End of Feedback()
+  	//Anonymous Class to listen for events in the program
+  public void actionPerformed(ActionEvent e){ //Start of Anonymous Class
   		String cmd = e.getActionCommand();
   		
   		if(cmd.equals("Submit"))
         {
-            submit();
+            Submit();
             dispose();
             JOptionPane.showMessageDialog(null,"Thank you for the Feedback!");
         }
-  	}
-  	 public void submit(){
+  	}//End of Anonymous Class
+  	
+  	//Here the text entered into the JTextArea is saved 
+/*3*/ public void Submit(){ //Start of submit()
         File file = null;
         FileWriter out=null;
 
-
+	
         try {
             file = new File("Feedback.txt");
             out = new FileWriter(file);     
@@ -64,5 +69,5 @@
         } catch (IOException e) {
             e.printStackTrace();
         }
-  }
-}
+  }//End of submit()
+}//End of Feedback

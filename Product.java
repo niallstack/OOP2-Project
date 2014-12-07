@@ -1,23 +1,26 @@
 //Niall Stack T00174406 OOP2-Project-2014
 /*Product.java
- *This programme creates the Product class using mutators and constructors.
+ *This program creates the Product class using mutators and constructors.
  *This Product class will then be used for a driver class*/
  
  import java.io.*;
- public class Product implements Serializable{
+ /*Beginning of the Product Method which creates, alters and allows access to
+  *the attributes in it
+  */
+ public class Product implements Serializable{ //Start of Product
  	private String name;
  	private String description;
  	private String location;
  	
- 	public Product() {
+ 	public Product() { //Start of Product()
 				this("Unknown","Unknown","Unknown");
-	}
+	}//End of Product()
  	
- 	public Product(String name, String description, String location) {
+ 	public Product(String name, String description, String location) { //Start of Constructors
 				setName(name);
 				setDescription(description);
 				setLocation(location);
-	}
+	}//End of Constructors
 	
  	
  	//accessor methods to return a copy of the attributes
@@ -35,15 +38,12 @@
  	}
  	public void setLocation (String location) {
  		this.location = location;
- 	}
+ 	}//End of Mutators
  	
- 	//Constructors
- 	
- 	
+ 	//toString method to convert attributes into a String
  	public String toString() {
  		return String.format("Name: %s\nDescription: %s\nLocation: %s",getName(),getDescription(),getLocation());
- 	}
+ 	}//End of toString Method
  	
- 	
- }
+ }//End of Product
  

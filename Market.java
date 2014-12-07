@@ -1,10 +1,10 @@
 //Niall Stack T00174406 OOP2-Project-2014
 /*Market.java
- *This programme is the GUI that uses the mutators and accessors from the user and 
+ *This program is the GUI that uses the mutators and accessors from the user and 
  *product classes*/
 /*References 
-1- From Programmes written by John Walsh
-2-http://stackoverflow.com/questions/14735085/clicking-a-jlabel-to-open-a-new-frame
+1- From Programs written by John Walsh
+2-http://stackoverflow.com/questions/14735085/clicking-a-jlabel-to-open-a-new-frame - By Robin Chander
 
 */
  
@@ -20,15 +20,14 @@
   	JMenu User;
  	JMenu Product;
  	JButton back;
- 	int i;
  	private JLabel imageLabel;
  	private JLabel imageLabel2;
  	private JLabel imageLabel3;
- 	public static void main(String[] args){
+ 	public static void main(String[] args){ //Start of Main
  		Market frame = new Market();
         frame.setVisible(true);
- 	}
- 	public Market(){
+ 	}//End of Main
+ 	public Market(){ //Start of Market()
  		super("Market");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -42,7 +41,9 @@
 		cPane.add(imageLabel);
 		imageLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		imageLabel.addMouseListener(new MouseAdapter()  
-		{  
+		{  /*These mouseClicked events listen for when the user
+			*clicks on an image and reacts*/
+		
 /*2*/    public void mouseClicked(MouseEvent e)  
     		{  
     	int option = JOptionPane.showConfirmDialog(null,"Do you wish to reserve this item?");
@@ -50,7 +51,6 @@
 				{
 					imageLabel.setVisible(false);
 					JOptionPane.showMessageDialog(null,"This item has been reserved for you in Killarney");
-					i++;
 				}
    		 	}  
 		}); 
@@ -66,7 +66,6 @@
 				{
 					imageLabel2.setVisible(false);
 					JOptionPane.showMessageDialog(null,"This item has been reserved for you in Tralee");
-					i++;
 				}
    		 	}  
 		}); 
@@ -82,7 +81,6 @@
 				{
 					imageLabel3.setVisible(false);
 					JOptionPane.showMessageDialog(null,"This item has been reserved for you in Listowel");
-					i++;
 				}
    		 	}  
 		}); 
@@ -101,8 +99,13 @@
 		cPane.add(back);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
- 	}
- 	public void actionPerformed(ActionEvent e){
+ 	}//End of Market()
+ 	
+ 	/*Both actionPerformed and WindowEventHandle
+	 *listen for events that occur within the program
+	 *and respond
+	 */
+ 	public void actionPerformed(ActionEvent e){ //Start of Anonymous Class
 		String  menuName;
 /*1*/	String cmd = e.getActionCommand();
         menuName = e.getActionCommand();
@@ -118,19 +121,25 @@
         else if (menuName.equals("Add Product")) {
         	ProductDriver();
         }
+        /*View User option reads the data stored
+         *in AllMembers.dat and displays them 
+         */
         else if(menuName.equals("View User"))
         {
         	List<PUser> readMembers = new ArrayList<PUser>();
-			File readFile = new File("allMembers.dat");
+			File readFile = new File("AllMembers.dat");
 			FileInputStream fis = new FileInputStream(readFile);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			readMembers = (ArrayList<PUser>) ois.readObject();
 		
 			for(int i = 0;i < readMembers.size();i++)
 			{
-				
 			JOptionPane.showMessageDialog(null,readMembers.get(i).toString());
-			JOptionPane.showMessageDialog(null,"You have reserved " + String.valueOf(i) + " item/s");
+		/*A piece of code I left in from my attempt to
+		 *store the amount of products reserved
+		 and transfer them to "View User" in the User menu
+		 */
+		  //JOptionPane.showMessageDialog(null,"You have reserved " + String.valueOf(i) + " item/s");
 			}
         }
         if(cmd.equals("Proceed"))
@@ -143,8 +152,8 @@
         
         }
         				
-	}
-	private class WindowEventHandler extends WindowAdapter{
+	}//End of Anonymous Class
+	private class WindowEventHandler extends WindowAdapter{ //Start of another Anonymous Class
 		ImageIcon img = new ImageIcon("Shopping-Basket-icon.png");
 			public void windowClosing(WindowEvent e){
 		int option = JOptionPane.showConfirmDialog(null,"Are you sure you wish to exit?");
@@ -159,8 +168,8 @@
 		public void mouseClicked(MouseEvent e) {
 			System.exit(0);
 		}
-	}
-	public void createUserMenu(){
+	}//End of Anonymous Class
+	public void createUserMenu(){ //Start of createUserMenu
 		JMenuItem    item;
 		User = new JMenu("User");
 		item = new JMenuItem("Log In");
@@ -173,8 +182,8 @@
         item.addActionListener( this );
         User.add( item );
     
-	}
-	public void createProductMenu(){
+	}//End of createUserMenu
+	public void createProductMenu(){ //Start of createProductMenu
 		JMenuItem    item;
 		Product = new JMenu("Product");
 		item = new JMenuItem("Add Product");        
@@ -182,15 +191,18 @@
         Product.add( item );
 		
 
-	}
+	}//End of createProductMenu
 	
 /*1*/public User UserDriver() throws /*IO*/ Exception/* FileNotFoundException*/
-	{
+	{ //Start of UserDriver()
 		List<User> allMembers = new ArrayList<User>();
  		User member = new User();
  		int confirm = JOptionPane.YES_OPTION;
  	
- 	
+ 	    /*UserDriver uses the attributes created in User and
+ 	     *allows the user to assign values to them
+ 	     *which is then saved in the AllMembers.dat file
+ 	     */
  		while(confirm == JOptionPane.YES_OPTION)
  		{
  		
@@ -218,7 +230,7 @@
  		
  		}
  		
- 		
+ 		//Saving attributes to AllMembers.dat
  		File f1 = new File("AllMembers.dat");
 		
 		FileOutputStream fos = new FileOutputStream(f1);
@@ -233,14 +245,19 @@
 		 return member;
 		
 				
-	}
+	}//End of UserDriver()
 /*1*/public PUser UserLoginDriver() throws /*IO*/ Exception/* FileNotFoundException*/
-	{
+	{ //Start of UserLoginDriver()
 		List<PUser> allMembers = new ArrayList<PUser>();
  		PUser member1 = new PUser();
  		int confirm = JOptionPane.YES_OPTION;
  	
- 	
+ 	    /*UserLoginDriver uses the attributes created in PUser
+ 	     *and allows the user to assign values to them
+ 	     *in AllMembers.dat file, unfortunately I 
+ 	     *could not get it to check if the values had already been
+ 	     *previously entered as a normal log in would.
+ 	     */
  		while(confirm == JOptionPane.YES_OPTION)
  		{
  			String userName;
@@ -262,7 +279,7 @@
  		
  		}
  		
- 		
+ 		//Saving attributes to AllMembers.dat
  		File f1 = new File("AllMembers.dat");
 		
 		FileOutputStream fos = new FileOutputStream(f1);
@@ -277,15 +294,18 @@
 		 return member1;
 		
 				
-	}
+	}//End of UserDriver()
 
 /*1*/public Product ProductDriver() throws /*IO*/ Exception/* FileNotFoundException*/
-	{
+	{ //Start of ProductDriver()
 		List<Product> allProducts = new ArrayList<Product>();
  		Product products = new Product();
  		int confirm = JOptionPane.YES_OPTION;
  	
- 	
+        /*ProductDriver uses the attributes created in Product and
+         *allows the user to assign values to them, 
+         *which are then saved in AllProducts.dat
+         */ 	
  		while(confirm == JOptionPane.YES_OPTION)
  		{
  		
@@ -311,6 +331,7 @@
  		
  		}
  		
+ 		//Saving attributes to AllProducts.dat
  		File f1 = new File("AllProducts.dat");
 		
 		FileOutputStream fos = new FileOutputStream(f1);
@@ -323,5 +344,5 @@
 		
 		
 		return products;
- 	}
-  }
+ 	}//End of ProductDriver
+  }//End of Market
