@@ -2,6 +2,11 @@
 /*GUI.java
  *This programme is the GUI that uses the mutators and accessors from the user and 
  *product classes*/
+ /*References 
+1- From Programmes written by John Walsh
+2-http://stackoverflow.com/questions/14735085/clicking-a-jlabel-to-open-a-new-frame
+
+*/
  
  import javax.swing.*;
  import java.util.List;
@@ -9,14 +14,16 @@
  import java.awt.*;
  import java.awt.event.*;
  import java.io.*;
+  
  
  public class GUI extends JFrame implements ActionListener{
  	JMenu User;
  	JMenu Product;
  	JButton proceed;
+ 	JButton feedback;
+ 	int i;
     private JLabel imageLabel;
     private JLabel promptLabel;
-  //  private JLabel promptLabel2;
  	public static void main(String[] args){
 		
 	 GUI frame = new GUI();
@@ -26,7 +33,7 @@
 		super("GUI");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-		setTitle("Stuff-Stack");
+		setTitle("Stuff-Stack - The Safe Online Used Market Place!");
 		Container cPane;
 		cPane = getContentPane( );
         cPane.setLayout(new FlowLayout());
@@ -34,10 +41,8 @@
 		setLocationRelativeTo(null);
 		imageLabel = new JLabel(new ImageIcon("create_thumb.png"));
 		cPane.add(imageLabel);
-		promptLabel = new JLabel("<html><br><h1>Welcome to Stuff-Stack</h1><br> The online store where you can look at the item in person before you buy!<br>Simply make an account, ask to purchase an item and then it will be sent to one of our locations for you to view<br><br><br><h2>Selling</h2><br>If you wish to sell something,<br> simply enter the details of the product and it will be sent to a moderator, who will add it to the site.</html>");
+		promptLabel = new JLabel("<html><br><h1>Welcome to Stuff-Stack</h1><br> The online store where you can look at the item in person before you buy!<br>Simply make an account, ask to purchase an item and then it will be sent to one of our locations for you to view<br><br><br><hr><h2>Selling</h2><br>If you wish to sell something,<br> simply enter the details of the product and it will be sent to a moderator, who will add it to the site.<hr></html>");
         cPane.add(promptLabel);
-        //promptLabel2 = new JLabel("<html><br><br><h1>Selling</h1><br>If you wish to sell something,<br> simply enter the details of the product and it will be sent to a moderator, who will add it to the site</html>");
-        //cPane.add(promptLabel2);
 		addWindowListener(new WindowEventHandler());
 		setIconImage(new ImageIcon(
 		getClass().getResource("Shopping-Basket-icon.png")).getImage());
@@ -46,6 +51,10 @@
         proceed.setActionCommand("Proceed");
 		cPane.add(proceed);
 		createUserMenu();
+		feedback = new JButton("Feedback");
+		feedback.addActionListener(this);
+        feedback.setActionCommand("Feedback");
+        cPane.add(feedback);
 		createProductMenu();
 		JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
@@ -58,11 +67,14 @@
 	public void actionPerformed(ActionEvent e){
 		String  menuName;
 		String cmd = e.getActionCommand();
-        menuName = e.getActionCommand(); // what's written on the item that was clicked
-        // note the String comparison
+/*1*/   menuName = e.getActionCommand(); // what's written on the item that was clicked
         try{
         
-        if (menuName.equals("New User")) {
+        if (menuName.equals("Log In")) {
+        	UserLoginDriver();
+        }
+        
+        else if (menuName.equals("New User")) {
         	UserDriver();
         }
         else if (menuName.equals("Add Product")) {
@@ -70,22 +82,27 @@
         }
         else if(menuName.equals("View User"))
         {
-        	List<User> readMembers = new ArrayList<User>();
+        	List<PUser> readMembers = new ArrayList<PUser>();
 			File readFile = new File("allMembers.dat");
 			FileInputStream fis = new FileInputStream(readFile);
 			ObjectInputStream ois = new ObjectInputStream(fis);
-			readMembers = (ArrayList<User>) ois.readObject();
+			readMembers = (ArrayList<PUser>) ois.readObject();
 		
 			for(int i = 0;i < readMembers.size();i++)
 			{
 				
 			JOptionPane.showMessageDialog(null,readMembers.get(i).toString());
+			JOptionPane.showMessageDialog(null,"You have reserved " + String.valueOf(i) + " item/s");
 			}
         }
         if(cmd.equals("Proceed"))
         {
             dispose();
             new Market();
+        }
+        else if(cmd.equals("Feedback"))
+        {
+        	new Feedback();
         }
         					
         }
@@ -112,6 +129,9 @@
 	public void createUserMenu(){
 		JMenuItem    item;
 		User = new JMenu("User");
+		item = new JMenuItem("Log In");
+		item.addActionListener( this );
+		User.add( item );
 		item = new JMenuItem("New User");        
         item.addActionListener( this );
         User.add( item );
@@ -130,7 +150,7 @@
 
 	}
 	
-	public User UserDriver() throws /*IO*/ Exception/* FileNotFoundException*/
+/*1*/public User UserDriver() throws /*IO*/ Exception/* FileNotFoundException*/
 	{
 		List<User> allMembers = new ArrayList<User>();
  		User member = new User();
@@ -180,8 +200,50 @@
 		
 				
 	}
+/*1*/public PUser UserLoginDriver() throws /*IO*/ Exception/* FileNotFoundException*/
+	{
+		List<PUser> allMembers = new ArrayList<PUser>();
+ 		PUser member1 = new PUser();
+ 		int confirm = JOptionPane.YES_OPTION;
+ 	
+ 	
+ 		while(confirm == JOptionPane.YES_OPTION)
+ 		{
+ 			String userName;
+ 			userName = JOptionPane.showInputDialog("Please Enter Your UserName: ");
+ 			
+ 			String password;
+ 			password = JOptionPane.showInputDialog("Please Enter Your Password: ");
+ 		
+ 			member1 = new PUser(userName,password);
+ 			
+ 			confirm = JOptionPane.showConfirmDialog(null,"Are these the correct details?");
+ 			if(confirm == JOptionPane.CANCEL_OPTION)
+ 			{
+ 				System.exit(0);
+ 			}
+ 			allMembers.add(member1);
+ 		
+ 		}
+ 		
+ 		
+ 		File f1 = new File("AllMembers.dat");
+		
+		FileOutputStream fos = new FileOutputStream(f1);
+		
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		oos.writeObject(allMembers);
+		oos.close();
+		
+		
+		 JOptionPane.showMessageDialog(null," " + member1.toString());
+		 
+		 return member1;
+		
+				
+	}
 
-	public Product ProductDriver() throws /*IO*/ Exception/* FileNotFoundException*/
+/*1*/public Product ProductDriver() throws /*IO*/ Exception/* FileNotFoundException*/
 	{
 		List<Product> allProducts = new ArrayList<Product>();
  		Product products = new Product();
